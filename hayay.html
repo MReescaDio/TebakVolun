@@ -1,0 +1,1548 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bermain, Tertawa, Belajar dan Bergembira Bersama</title>
+    
+    <!-- Google Fonts untuk UI/UX yang Fun dan Modern -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome untuk Ikon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* ==========================================================================
+           1. CSS VARIABLES & RESET
+           ========================================================================== */
+        :root {
+            --primary: #FF6B6B;
+            --primary-hover: #FF5252;
+            --secondary: #4ECDC4;
+            --tertiary: #FFE66D;
+            --quaternary: #1A535C;
+            --bg-color: #F7FFF7;
+            --text-dark: #2F3542;
+            --text-light: #F1F2F6;
+            --white: #FFFFFF;
+            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --hover-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            --border-radius-lg: 30px;
+            --border-radius-md: 20px;
+            --border-radius-sm: 12px;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Fredoka One', cursive;
+            color: var(--quaternary);
+            letter-spacing: 1px;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* ==========================================================================
+           2. GLOBAL COMPONENTS & ANIMATIONS
+           ========================================================================== */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 60%;
+            height: 6px;
+            background-color: var(--secondary);
+            bottom: -10px;
+            left: 20%;
+            border-radius: 10px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.1rem;
+            color: var(--white);
+            background-color: var(--primary);
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.6);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+            box-shadow: 0 5px 15px rgba(78, 205, 196, 0.4);
+        }
+
+        .btn-secondary:hover {
+            background-color: #3bbcb3;
+            box-shadow: 0 8px 20px rgba(78, 205, 196, 0.6);
+        }
+
+        /* Animations */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ==========================================================================
+           3. NAVBAR
+           ========================================================================== */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 0;
+            background: rgba(247, 255, 247, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: var(--transition);
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.5rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            color: var(--tertiary);
+            font-size: 2rem;
+            animation: pulse 2s infinite;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        .nav-links li a {
+            font-weight: 700;
+            color: var(--quaternary);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links li a::before {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background-color: var(--primary);
+            transition: var(--transition);
+            border-radius: 5px;
+        }
+
+        .nav-links li a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links li a:hover::before {
+            width: 100%;
+        }
+
+        /* ==========================================================================
+           4. HERO SECTION (1. Nama Kegiatan)
+           ========================================================================== */
+        #hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            padding-top: 80px;
+            overflow: hidden;
+            background: linear-gradient(135deg, rgba(78,205,196,0.1) 0%, rgba(255,230,109,0.2) 100%);
+        }
+
+        .hero-content {
+            flex: 1;
+            padding-right: 50px;
+            z-index: 2;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background-color: var(--tertiary);
+            color: var(--quaternary);
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 10px rgba(255, 230, 109, 0.4);
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            color: var(--quaternary);
+        }
+
+        .hero-content h1 span {
+            color: var(--primary);
+            display: block;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        .hero-image {
+            flex: 1;
+            position: relative;
+            z-index: 2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-image img {
+            width: 100%;
+            max-width: 500px;
+            animation: float 6s ease-in-out infinite;
+            filter: drop-shadow(0 20px 30px rgba(0,0,0,0.15));
+        }
+
+        /* SVG Background Blobs for Hero */
+        .blob {
+            position: absolute;
+            z-index: 1;
+            opacity: 0.6;
+        }
+
+        .blob-1 { top: -50px; right: -100px; width: 400px; fill: var(--tertiary); }
+        .blob-2 { bottom: -100px; left: -50px; width: 500px; fill: rgba(78, 205, 196, 0.3); }
+
+        /* ==========================================================================
+           5. TUJUAN SECTION (2. Tujuan Kegiatan)
+           ========================================================================== */
+        #tujuan {
+            padding: 100px 0;
+            background-color: var(--white);
+            position: relative;
+        }
+
+        .tujuan-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .tujuan-card {
+            background: var(--bg-color);
+            padding: 40px 30px;
+            border-radius: var(--border-radius-md);
+            text-align: center;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            border: 2px solid transparent;
+        }
+
+        .tujuan-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--white);
+            z-index: -1;
+            transition: var(--transition);
+        }
+
+        .tujuan-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--hover-shadow);
+            border-color: var(--secondary);
+        }
+
+        .tujuan-card:hover::before {
+            background: rgba(78, 205, 196, 0.05);
+        }
+
+        .tujuan-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--tertiary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2rem;
+            color: var(--quaternary);
+            box-shadow: 0 10px 20px rgba(255, 230, 109, 0.4);
+            transition: var(--transition);
+        }
+
+        .tujuan-card:hover .tujuan-icon {
+            transform: rotate(15deg) scale(1.1);
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .tujuan-card h3 {
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        /* ==========================================================================
+           6. JADWAL & TEMPAT SECTION (3. Jadwal dan Tempat)
+           ========================================================================== */
+        #jadwal {
+            padding: 100px 0;
+            background: linear-gradient(to bottom, var(--bg-color), #E8F8F5);
+        }
+
+        .info-box {
+            background: var(--white);
+            padding: 30px;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--card-shadow);
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin-bottom: 60px;
+            border-left: 8px solid var(--primary);
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+        }
+
+        .info-item i {
+            font-size: 2.5rem;
+            color: var(--secondary);
+        }
+
+        .info-item div h4 {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        /* Timeline UI */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background-color: var(--tertiary);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+            border-radius: 10px;
+        }
+
+        .timeline-container {
+            padding: 10px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+        }
+
+        .timeline-container::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            right: -12px;
+            background-color: var(--white);
+            border: 5px solid var(--primary);
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+            box-shadow: 0 0 0 4px rgba(255, 107, 107, 0.2);
+        }
+
+        .left { left: 0; }
+        .right { left: 50%; }
+
+        .right::after {
+            left: -13px;
+        }
+
+        .timeline-content {
+            padding: 20px 30px;
+            background-color: var(--white);
+            position: relative;
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+        }
+
+        .timeline-content:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .timeline-content h3 {
+            color: var(--secondary);
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .time-badge {
+            background: var(--quaternary);
+            color: var(--white);
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 700;
+        }
+
+        .timeline-content p {
+            margin-bottom: 5px;
+        }
+
+        .timeline-content ul {
+            list-style-type: none;
+            padding-left: 10px;
+            margin-top: 10px;
+        }
+
+        .timeline-content ul li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 5px;
+        }
+
+        .timeline-content ul li::before {
+            content: '★';
+            position: absolute;
+            left: 0;
+            color: var(--tertiary);
+            font-size: 0.9rem;
+        }
+
+        /* ==========================================================================
+           7. SASARAN SECTION (4. Sasaran Kegiatan)
+           ========================================================================== */
+        #sasaran {
+            padding: 100px 0;
+            background-color: var(--quaternary);
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        #sasaran .section-title {
+            color: var(--white);
+        }
+
+        .sasaran-grid {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .sasaran-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 40px;
+            border-radius: var(--border-radius-lg);
+            text-align: center;
+            flex: 1;
+            min-width: 300px;
+            max-width: 450px;
+            transition: var(--transition);
+        }
+
+        .sasaran-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .sasaran-icon {
+            font-size: 4rem;
+            color: var(--tertiary);
+            margin-bottom: 20px;
+        }
+
+        .sasaran-card h3 {
+            color: var(--white);
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .stat-number {
+            font-family: 'Fredoka One', cursive;
+            font-size: 3rem;
+            color: var(--secondary);
+            display: block;
+            margin: 10px 0;
+        }
+
+        .sasaran-card p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* ==========================================================================
+           8. WORKSHOP SECTION (5. Jenis Workshop)
+           ========================================================================== */
+        #workshop {
+            padding: 100px 0;
+            background: var(--white);
+        }
+
+        .workshop-container {
+            display: flex;
+            flex-direction: column;
+            gap: 50px;
+        }
+
+        .workshop-item {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            background: var(--bg-color);
+            padding: 40px;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--card-shadow);
+        }
+
+        .workshop-item:nth-child(even) {
+            flex-direction: row-reverse;
+            background: #FFF5F5;
+        }
+
+        .workshop-img {
+            flex: 1;
+            min-width: 300px;
+            border-radius: var(--border-radius-md);
+            overflow: hidden;
+            box-shadow: var(--hover-shadow);
+            position: relative;
+        }
+
+        .workshop-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .workshop-item:hover .workshop-img img {
+            transform: scale(1.1);
+        }
+
+        .workshop-img-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+            display: flex;
+            align-items: flex-end;
+            padding: 20px;
+            color: white;
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.5rem;
+        }
+
+        .workshop-text {
+            flex: 1.5;
+        }
+
+        .workshop-text h3 {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .workshop-text h4 {
+            color: var(--quaternary);
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 700;
+        }
+
+        .workshop-list {
+            list-style: none;
+        }
+
+        .workshop-list li {
+            padding: 8px 0 8px 30px;
+            position: relative;
+            font-size: 1.1rem;
+        }
+
+        .workshop-list li::before {
+            content: '\f00c';
+            font-family: 'FontAwesome';
+            position: absolute;
+            left: 0;
+            color: var(--secondary);
+            font-size: 1.2rem;
+        }
+
+        .reason-box {
+            margin-top: 25px;
+            padding: 20px;
+            background: rgba(255, 230, 109, 0.2);
+            border-left: 5px solid var(--tertiary);
+            border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0;
+            font-style: italic;
+        }
+
+        /* ==========================================================================
+           9. GAMES SECTION (6. Nama Games)
+           ========================================================================== */
+        #games {
+            padding: 100px 0;
+            background: #FFF9E6;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .game-card {
+            background: var(--white);
+            border-radius: var(--border-radius-lg);
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .game-card:hover {
+            transform: translateY(-15px);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .game-header {
+            height: 150px;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-card:nth-child(2) .game-header { background: var(--secondary); }
+        .game-card:nth-child(3) .game-header { background: var(--quaternary); }
+
+        .game-header i {
+            font-size: 4rem;
+            color: rgba(255,255,255,0.8);
+            z-index: 2;
+            transition: var(--transition);
+        }
+
+        .game-card:hover .game-header i {
+            transform: scale(1.2) rotate(10deg);
+            color: var(--white);
+        }
+
+        .game-header::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 0;
+            width: 100%;
+            height: 40px;
+            background: var(--white);
+            border-radius: 50% 50% 0 0;
+        }
+
+        .game-body {
+            padding: 30px;
+        }
+
+        .game-body h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .game-body p {
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        .game-tasks {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .game-task-badge {
+            background: var(--bg-color);
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--quaternary);
+            border: 1px solid #ddd;
+        }
+
+        .game-value {
+            background: rgba(78, 205, 196, 0.1);
+            padding: 15px;
+            border-radius: var(--border-radius-sm);
+            border-left: 4px solid var(--secondary);
+        }
+
+        .game-value strong {
+            display: block;
+            color: var(--quaternary);
+            margin-bottom: 5px;
+            font-family: 'Fredoka One', cursive;
+            font-size: 0.9rem;
+        }
+
+        /* ==========================================================================
+           10. HARAPAN SECTION (7. Harapan)
+           ========================================================================== */
+        #harapan {
+            padding: 100px 0;
+            background: linear-gradient(135deg, var(--quaternary) 0%, #11363c 100%);
+            color: var(--white);
+            text-align: center;
+            position: relative;
+        }
+
+        #harapan .section-title {
+            color: var(--tertiary);
+        }
+
+        .harapan-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .harapan-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 30px;
+            border-radius: var(--border-radius-md);
+            width: calc(50% - 20px);
+            min-width: 300px;
+            text-align: left;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .harapan-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-5px);
+        }
+
+        .harapan-item i {
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            font-size: 2rem;
+            color: var(--tertiary);
+            background: var(--quaternary);
+            padding: 0 10px;
+        }
+
+        .harapan-item p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            font-weight: 500;
+        }
+
+        .harapan-footer {
+            margin-top: 50px;
+            padding: 30px;
+            background: rgba(255, 230, 109, 0.1);
+            border-radius: var(--border-radius-lg);
+            border: 2px dashed var(--tertiary);
+        }
+
+        .harapan-footer p {
+            font-size: 1.3rem;
+            font-family: 'Fredoka One', cursive;
+            color: var(--tertiary);
+            letter-spacing: 1px;
+        }
+
+        /* ==========================================================================
+           11. FOOTER
+           ========================================================================== */
+        footer {
+            background: #111;
+            color: var(--white);
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .footer-content h2 {
+            color: var(--tertiary);
+            margin-bottom: 10px;
+        }
+
+        .footer-content p {
+            opacity: 0.7;
+            margin-bottom: 20px;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            font-size: 0.9rem;
+            opacity: 0.5;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 20px;
+            margin-top: 20px;
+        }
+
+        /* ==========================================================================
+           12. MEDIA QUERIES (RESPONSIVE DESIGN)
+           ========================================================================== */
+        @media screen and (max-width: 992px) {
+            .hero-content h1 { font-size: 3rem; }
+            .timeline::after { left: 31px; }
+            .timeline-container { width: 100%; padding-left: 70px; padding-right: 25px; }
+            .timeline-container::before { left: 60px; border: medium solid white; border-width: 10px 10px 10px 0; border-color: transparent white transparent transparent; }
+            .left::after, .right::after { left: 18px; }
+            .right { left: 0%; }
+            .workshop-item { flex-direction: column !important; }
+            .harapan-item { width: 100%; }
+        }
+
+        @media screen and (max-width: 768px) {
+            #hero { flex-direction: column; text-align: center; padding-top: 120px; }
+            .hero-content { padding-right: 0; margin-bottom: 50px; }
+            .nav-links { display: none; } /* Simplified for mobile */
+            .info-box { flex-direction: column; text-align: center; }
+            .info-item { flex-direction: column; }
+        }
+
+        /* Confetti Canvas */
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Confetti Canvas untuk efek Fun -->
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- 3. NAVBAR -->
+    <nav>
+        <div class="container">
+            <div class="logo">
+                <i class="fa-solid fa-hands-holding-child"></i>
+                Bergembira Bersama
+            </div>
+            <ul class="nav-links">
+                <li><a href="#hero">Beranda</a></li>
+                <li><a href="#tujuan">Tujuan</a></li>
+                <li><a href="#jadwal">Jadwal</a></li>
+                <li><a href="#workshop">Workshop</a></li>
+                <li><a href="#games">Games</a></li>
+                <li><a href="#harapan">Harapan</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 1. NAMA KEGIATAN (HERO SECTION) -->
+    <header id="hero">
+        <!-- Latar belakang SVG Blobs -->
+        <svg class="blob blob-1" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <path d="M44.7,-76.4C58.8,-69.2,71.8,-59.1,81.3,-46.3C90.8,-33.5,96.8,-18,95.5,-2.9C94.2,12.2,85.6,26.9,75.7,39.6C65.8,52.3,54.6,63,41.4,70.5C28.2,78,13.1,82.3,-1.5,84.9C-16.1,87.5,-32.2,88.4,-45.4,81.6C-58.6,74.8,-68.9,60.3,-77.2,45.4C-85.5,30.5,-91.8,15.2,-91.3,0.3C-90.8,-14.6,-83.5,-29.2,-74.4,-42.1C-65.3,-55,-54.4,-66.2,-41.3,-73.8C-28.2,-81.4,-14.1,-85.4,0.5,-86.3C15.1,-87.2,30.6,-83.6,44.7,-76.4Z" transform="translate(100 100)" />
+        </svg>
+        
+        <div class="container" style="display: flex; flex-wrap: wrap; align-items: center;">
+            <div class="hero-content reveal">
+                <div class="hero-badge">Proposal Kegiatan Sosial 2026</div>
+                <h1>Bermain, tertawa, <span>belajar dan bergembira bersama</span></h1>
+                <p>Mari bergabung menciptakan momen tak terlupakan, membangun mimpi, dan menebar tawa bagi adik-adik panti asuhan melalui berbagai kegiatan edukatif dan interaktif.</p>
+                <div style="display: flex; gap: 15px; margin-top: 20px;">
+                    <a href="#jadwal" class="btn">Lihat Jadwal</a>
+                    <a href="#tujuan" class="btn btn-secondary">Pelajari Tujuan</a>
+                </div>
+            </div>
+            <div class="hero-image reveal">
+                <!-- Placeholder untuk ilustrasi anak-anak bermain -->
+                <img src="https://cdn.pixabay.com/photo/2021/04/24/09/48/kids-6203608_1280.png" alt="Ilustrasi Anak Bermain" style="border-radius: 50%;">
+            </div>
+        </div>
+    </header>
+
+    <!-- 2. TUJUAN KEGIATAN SECTION -->
+    <section id="tujuan">
+        <div class="container">
+            <h2 class="section-title reveal">Tujuan Kegiatan</h2>
+            <div class="tujuan-grid">
+                
+                <div class="tujuan-card reveal">
+                    <div class="tujuan-icon">
+                        <i class="fa-solid fa-face-smile-beam"></i>
+                    </div>
+                    <h3>Pengalaman Menyenangkan</h3>
+                    <p>Memberikan pengalaman belajar yang menyenangkan dan tak terlupakan bagi anak-anak yatim.</p>
+                </div>
+
+                <div class="tujuan-card reveal">
+                    <div class="tujuan-icon">
+                        <i class="fa-solid fa-rocket"></i>
+                    </div>
+                    <h3>Motivasi & Cita-cita</h3>
+                    <p>Meningkatkan motivasi anak-anak untuk terus berani bermimpi dan meraih cita-cita mereka di masa depan.</p>
+                </div>
+
+                <div class="tujuan-card reveal">
+                    <div class="tujuan-icon">
+                        <i class="fa-solid fa-users-gear"></i>
+                    </div>
+                    <h3>Pengembangan Diri</h3>
+                    <p>Mengembangkan kemampuan komunikasi, kreativitas, dan kerja sama melalui berbagai aktivitas interaktif.</p>
+                </div>
+
+                <div class="tujuan-card reveal">
+                    <div class="tujuan-icon">
+                        <i class="fa-solid fa-shield-heart"></i>
+                    </div>
+                    <h3>Dukungan Moral</h3>
+                    <p>Memberikan dukungan moral serta menumbuhkan rasa percaya diri yang kuat pada anak-anak.</p>
+                </div>
+
+                <div class="tujuan-card reveal">
+                    <div class="tujuan-icon">
+                        <i class="fa-solid fa-handshake-angle"></i>
+                    </div>
+                    <h3>Silaturahmi & Kepedulian</h3>
+                    <p>Menjalin silaturahmi yang erat dan memupuk kepedulian sosial antara relawan dengan anak-anak panti asuhan.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. JADWAL DAN TEMPAT SECTION -->
+    <section id="jadwal">
+        <div class="container">
+            <h2 class="section-title reveal">Jadwal & Tempat</h2>
+            
+            <div class="info-box reveal">
+                <div class="info-item">
+                    <i class="fa-regular fa-calendar-check"></i>
+                    <div>
+                        <h4>Hari / Tanggal</h4>
+                        <p>Sabtu, 21 November 2026</p>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <i class="fa-regular fa-clock"></i>
+                    <div>
+                        <h4>Waktu</h4>
+                        <p>08.00 – 15.30 WIB</p>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <i class="fa-solid fa-map-location-dot"></i>
+                    <div>
+                        <h4>Tempat</h4>
+                        <p>Panti Asuhan / Aula Yayasan Sosial</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline">
+                
+                <div class="timeline-container left reveal">
+                    <div class="timeline-content">
+                        <h3><span class="time-badge">08.00 – 08.30</span> Registrasi</h3>
+                        <ul>
+                            <li>Registrasi peserta</li>
+                            <li>Pembagian kelompok dan name tag</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-container right reveal">
+                    <div class="timeline-content">
+                        <h3><span class="time-badge">08.30 – 09.00</span> Pembukaan</h3>
+                        <ul>
+                            <li>Sambutan panitia dan pengurus panti</li>
+                            <li>Sesi Ice breaking ceria</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-container left reveal">
+                    <div class="timeline-content">
+                        <h3><span class="time-badge">09.00 – 10.30</span> Workshop Sesi 1</h3>
+                        <p><strong>Workshop Inspirasi Cita-Cita dan Pengembangan Diri.</strong></p>
+                    </div>
+                </div>
+
+                <div class="timeline-container right reveal">
+                    <div class="timeline-content">
+                        <h3><span class="time-badge">10.30 – 11.30</span> Games Interaktif</h3>
+                        <p><strong>Games Kelompok Edukatif</strong> di luar ruangan / aula.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-container left reveal">
+                    <div class="timeline-content">
+                        <h3><span class="time-badge">11.30 – 12.30</span> ISHOMA</h3>
+                        <p>Istirahat, Shalat berjamaah, dan Makan siang bersama.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-container right reveal">
+                    <div class="timeline-content">
+                        <h3><span class="time-badge">12.30 – 13.30</span> Workshop Sesi 2</h3>
+                        <p><strong>Workshop Kreativitas</strong> membuat karya seni.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-container left reveal">
+                    <div class="timeline-content">
+                        <h3><span class="time-badge">13.30 – 14.30</span> Fun Challenge</h3>
+                        <p><strong>Fun Challenge dan Talent Show</strong> unjuk bakat anak-anak.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-container right reveal">
+                    <div class="timeline-content">
+                        <h3><span class="time-badge">14.30 – 15.00</span> Sesi Menulis</h3>
+                        <p><strong>Sesi Motivasi dan Menulis Mimpi</strong> di papan visi.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-container left reveal">
+                    <div class="timeline-content">
+                        <h3><span class="time-badge">15.00 – 15.30</span> Penutupan</h3>
+                        <ul>
+                            <li>Pembagian bingkisan</li>
+                            <li>Sesi foto bersama</li>
+                            <li>Penutupan acara</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. SASARAN KEGIATAN SECTION -->
+    <section id="sasaran">
+        <!-- SVG Wave Top -->
+        <svg style="position: absolute; top: 0; left: 0; width: 100%; transform: rotate(180deg);" viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 120L48 105C96 90 192 60 288 45C384 30 480 30 576 40C672 50 768 70 864 75C960 80 1056 70 1152 55C1248 40 1344 20 1392 10L1440 0V120H1392C1344 120 1248 120 1152 120C1056 120 960 120 864 120C768 120 672 120 576 120C480 120 384 120 288 120C192 120 96 120 48 120H0Z" fill="#E8F8F5"/>
+        </svg>
+
+        <div class="container" style="position: relative; z-index: 2; padding-top: 50px;">
+            <h2 class="section-title reveal">Sasaran Kegiatan</h2>
+            <div class="sasaran-grid">
+                
+                <div class="sasaran-card reveal">
+                    <i class="fa-solid fa-children sasaran-icon"></i>
+                    <h3>Peserta Utama</h3>
+                    <p>Anak-anak yatim dan dhuafa usia 8–17 tahun.</p>
+                    <span class="stat-number">50 - 100</span>
+                    <p>Anak Hebat yang siap belajar dan bermain bersama.</p>
+                </div>
+
+                <div class="sasaran-card reveal">
+                    <i class="fa-solid fa-people-group sasaran-icon" style="color: var(--primary);"></i>
+                    <h3>Relawan Penggerak</h3>
+                    <p>Mahasiswa dan pemuda komunitas sosial yang penuh dedikasi.</p>
+                    <span class="stat-number" style="color: var(--primary);">20 - 30</span>
+                    <p>Orang Kakak Relawan yang akan mendampingi.</p>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- SVG Wave Bottom -->
+        <svg style="position: absolute; bottom: -1px; left: 0; width: 100%;" viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 120L48 105C96 90 192 60 288 45C384 30 480 30 576 40C672 50 768 70 864 75C960 80 1056 70 1152 55C1248 40 1344 20 1392 10L1440 0V120H1392C1344 120 1248 120 1152 120C1056 120 960 120 864 120C768 120 672 120 576 120C480 120 384 120 288 120C192 120 96 120 48 120H0Z" fill="#FFFFFF"/>
+        </svg>
+    </section>
+
+    <!-- 5. JENIS WORKSHOP SECTION -->
+    <section id="workshop">
+        <div class="container">
+            <h2 class="section-title reveal">Jenis Workshop Interaktif</h2>
+            
+            <div class="workshop-container">
+                
+                <!-- Workshop 1 -->
+                <div class="workshop-item reveal">
+                    <div class="workshop-img">
+                        <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Workshop Aku Punya Mimpi">
+                        <div class="workshop-img-overlay">
+                            Workshop 1
+                        </div>
+                    </div>
+                    <div class="workshop-text">
+                        <h3>"Aku Punya Mimpi"</h3>
+                        <p>Sesi inspirasi dan pengembangan diri untuk membangkitkan semangat anak-anak.</p>
+                        
+                        <h4>Materi Utama:</h4>
+                        <ul class="workshop-list">
+                            <li>Mengenal potensi diri sejak dini.</li>
+                            <li>Cara jitu membangun rasa percaya diri.</li>
+                            <li>Menentukan cita-cita dan langkah sederhana mencapainya.</li>
+                            <li>Mendengar kisah inspiratif tokoh sukses dengan keterbatasan.</li>
+                        </ul>
+
+                        <div class="reason-box">
+                            <strong><i class="fa-solid fa-lightbulb" style="color:#FFA500; margin-right:8px;"></i> Kenapa Workshop ini Penting?</strong><br>
+                            Anak yatim sering menghadapi tantangan mental yang besar. Workshop ini menumbuhkan keyakinan bahwa kondisi mereka saat ini bukan penghalang untuk masa depan gemilang.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Workshop 2 -->
+                <div class="workshop-item reveal">
+                    <div class="workshop-img">
+                        <img src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Workshop Kreativitas">
+                        <div class="workshop-img-overlay">
+                            Workshop 2
+                        </div>
+                    </div>
+                    <div class="workshop-text">
+                        <h3>Workshop Kreativitas</h3>
+                        <p>Mengubah imajinasi menjadi karya seni visual yang indah dan bermakna.</p>
+                        
+                        <h4>Aktivitas Seru:</h4>
+                        <ul class="workshop-list">
+                            <li><strong>Menghias Celengan Impian:</strong> Belajar menabung dengan cara menyenangkan.</li>
+                            <li><strong>Membuat Vision Board:</strong> Menempelkan gambar cita-cita di papan visi.</li>
+                            <li><strong>Menggambar Profesi Impian:</strong> Mengekspresikan diri melalui seni rupa.</li>
+                        </ul>
+
+                        <div class="reason-box">
+                            <strong><i class="fa-solid fa-palette" style="color:var(--primary); margin-right:8px;"></i> Alasan Kegiatan:</strong><br>
+                            Seni dan kreativitas sangat efektif membantu anak-anak mengekspresikan emosi dan diri sekaligus membangun motivasi secara visual dan menyenangkan.
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. GAMES SECTION -->
+    <section id="games">
+        <div class="container">
+            <h2 class="section-title reveal">Games Kelompok Edukatif</h2>
+            <p style="text-align: center; margin-bottom: 40px; font-size: 1.2rem; color: #666;" class="reveal">
+                Bermain sambil belajar! Kami telah merancang permainan yang menantang sekaligus membangun karakter.
+            </p>
+
+            <div class="games-grid">
+                
+                <!-- Game 1 -->
+                <div class="game-card reveal">
+                    <div class="game-header">
+                        <i class="fa-solid fa-trophy"></i>
+                    </div>
+                    <div class="game-body">
+                        <h3>1. Misi Sang Juara</h3>
+                        <p>Setiap kelompok harus menyelesaikan pos-pos tantangan secara berurutan.</p>
+                        
+                        <div class="game-tasks">
+                            <span class="game-task-badge">Tebak Kata</span>
+                            <span class="game-task-badge">Puzzle Kerja Sama</span>
+                            <span class="game-task-badge">Estafet Bola</span>
+                            <span class="game-task-badge">Tantangan Memori</span>
+                        </div>
+
+                        <div class="game-value">
+                            <strong>Nilai yang dibangun:</strong>
+                            Kerja sama tim, komunikasi efektif, dan sportivitas tinggi.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Game 2 -->
+                <div class="game-card reveal">
+                    <div class="game-header">
+                        <i class="fa-solid fa-gem"></i>
+                    </div>
+                    <div class="game-body">
+                        <h3>2. Treasure of Kindness</h3>
+                        <p>Petualangan seru mencari petunjuk tersembunyi layaknya mencari harta karun di berbagai pos.</p>
+                        
+                        <p style="font-size: 0.95rem; margin-bottom: 20px;">
+                            Di setiap pos yang ditemukan, peserta tidak mendapatkan koin, melainkan pesan-pesan kebaikan yang harus mereka bacakan dan amalkan bersama.
+                        </p>
+
+                        <div class="game-value">
+                            <strong>Nilai yang dibangun:</strong>
+                            Kepedulian terhadap sesama, empati, dan semangat berbagi.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Game 3 -->
+                <div class="game-card reveal">
+                    <div class="game-header">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                    </div>
+                    <div class="game-body">
+                        <h3>3. Ranking 1 Ceria</h3>
+                        <p>Adu wawasan dalam format kuis interaktif yang mendebarkan dan penuh tawa.</p>
+                        
+                        <div class="game-tasks" style="margin-bottom: 20px;">
+                            <span class="game-task-badge">Pengetahuan Umum</span>
+                            <span class="game-task-badge">Agama Dasar</span>
+                            <span class="game-task-badge">Wawasan Kebangsaan</span>
+                        </div>
+
+                        <div class="game-value">
+                            <strong>Nilai yang dibangun:</strong>
+                            Semangat belajar tiada henti dan keberanian tampil.
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. HARAPAN SECTION -->
+    <section id="harapan">
+        <div class="container">
+            <h2 class="section-title reveal">Harapan dari Kegiatan Ini</h2>
+            
+            <div class="harapan-container">
+                
+                <div class="harapan-item reveal">
+                    <i class="fa-solid fa-quote-left"></i>
+                    <p>Anak-anak mendapatkan pengalaman yang menyenangkan, sangat berkesan, dan penuh makna di hati mereka.</p>
+                </div>
+
+                <div class="harapan-item reveal">
+                    <i class="fa-solid fa-quote-left"></i>
+                    <p>Tumbuhnya rasa percaya diri yang tinggi serta motivasi yang kuat untuk terus belajar dan meraih cita-cita.</p>
+                </div>
+
+                <div class="harapan-item reveal">
+                    <i class="fa-solid fa-quote-left"></i>
+                    <p>Anak-anak merasa sungguh diperhatikan, dihargai secara personal, dan didukung penuh oleh lingkungan sekitarnya.</p>
+                </div>
+
+                <div class="harapan-item reveal">
+                    <i class="fa-solid fa-quote-left"></i>
+                    <p>Terjalinnya hubungan yang harmonis antara relawan, komunitas, dan panti asuhan untuk program lanjutan berkelanjutan.</p>
+                </div>
+
+            </div>
+
+            <div class="harapan-footer reveal">
+                <p>"Kegiatan ini tidak hanya menjadi acara satu hari, tetapi menjadi awal dari gerakan kepedulian yang terus memberikan manfaat bagi anak-anak yatim di masa depan."</p>
+            </div>
+            
+            <br><br>
+            <button onclick="triggerConfetti()" class="btn btn-secondary reveal" style="font-size: 1.2rem; padding: 15px 40px; border-radius: 50px;">
+                <i class="fa-solid fa-heart"></i> Dukung Kegiatan Ini
+            </button>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <h2>Bermain, tertawa, belajar dan bergembira bersama</h2>
+                <p>Menciptakan pengalaman berharga, bermain, dan berbagi bersama Anak Yatim.</p>
+                
+                <div class="social-links">
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="#"><i class="fa-regular fa-envelope"></i></a>
+                </div>
+                
+                <div class="copyright">
+                    &copy; 2026 Proposal Sosial. Dibuat dengan <i class="fa-solid fa-heart" style="color: var(--primary);"></i> untuk tujuan sosial.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==========================================================================
+         JAVASCRIPT LOGIC
+         ========================================================================== -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // 1. SCROLL ANIMATION (Intersection Observer)
+            const reveals = document.querySelectorAll('.reveal');
+            
+            const revealOptions = {
+                threshold: 0.15,
+                rootMargin: "0px 0px -50px 0px"
+            };
+
+            const revealOnScroll = new IntersectionObserver(function(entries, observer) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) return;
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                });
+            }, revealOptions);
+
+            reveals.forEach(reveal => {
+                revealOnScroll.observe(reveal);
+            });
+
+            // Trigger for elements already in view on load
+            setTimeout(() => {
+                reveals.forEach(reveal => {
+                    const windowHeight = window.innerHeight;
+                    const elementTop = reveal.getBoundingClientRect().top;
+                    if (elementTop < windowHeight - 50) {
+                        reveal.classList.add('active');
+                    }
+                });
+            }, 100);
+
+            // 2. NAVBAR SCROLL EFFECT
+            const nav = document.querySelector('nav');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    nav.style.background = 'rgba(255, 255, 255, 0.98)';
+                    nav.style.boxShadow = '0 5px 20px rgba(0,0,0,0.1)';
+                    nav.style.padding = '15px 0';
+                } else {
+                    nav.style.background = 'rgba(247, 255, 247, 0.95)';
+                    nav.style.boxShadow = '0 2px 10px rgba(0,0,0,0.05)';
+                    nav.style.padding = '20px 0';
+                }
+            });
+
+            // 3. SMOOTH SCROLLING FOR ANCHOR LINKS
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // 4. FUN CONFETTI EFFECT SCRIPT
+            // A custom lightweight confetti particle system to satisfy UI/UX fun element
+            const canvas = document.getElementById('confetti-canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            let particles = [];
+            const colors = ['#FF6B6B', '#4ECDC4', '#FFE66D', '#1A535C', '#FF9F43'];
+
+            function createConfetti() {
+                const particleCount = 150;
+                for (let i = 0; i < particleCount; i++) {
+                    particles.push({
+                        x: canvas.width / 2,
+                        y: canvas.height / 2 + 200,
+                        r: Math.random() * 6 + 2,
+                        dx: Math.random() * 10 - 5,
+                        dy: Math.random() * -15 - 5,
+                        color: colors[Math.floor(Math.random() * colors.length)],
+                        tilt: Math.floor(Math.random() * 10) - 10,
+                        tiltAngle: 0,
+                        tiltAngleInc: (Math.random() * 0.07) + 0.05
+                    });
+                }
+            }
+
+            function animateConfetti() {
+                requestAnimationFrame(animateConfetti);
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                particles.forEach((p, index) => {
+                    p.tiltAngle += p.tiltAngleInc;
+                    p.y += (Math.cos(p.tiltAngle) + 1 + p.r / 2) / 2;
+                    p.x += Math.sin(p.tiltAngle) * 2;
+                    p.dy += 0.05; // gravity
+                    p.x += p.dx;
+                    p.y += p.dy;
+
+                    ctx.beginPath();
+                    ctx.lineWidth = p.r;
+                    ctx.strokeStyle = p.color;
+                    ctx.moveTo(p.x + p.tilt + p.r, p.y);
+                    ctx.lineTo(p.x + p.tilt, p.y + p.tilt + p.r);
+                    ctx.stroke();
+
+                    // Remove particles that are out of bounds
+                    if (p.y > canvas.height) {
+                        particles.splice(index, 1);
+                    }
+                });
+            }
+
+            animateConfetti();
+
+            // Expose function to global scope so button can trigger it
+            window.triggerConfetti = function() {
+                createConfetti();
+                // Play a fun click interaction effect
+                let btn = document.querySelector('.btn-secondary.reveal.active');
+                if(btn){
+                    btn.style.transform = 'scale(0.9)';
+                    setTimeout(() => { btn.style.transform = 'scale(1.05)'; }, 100);
+                    setTimeout(() => { btn.style.transform = 'scale(1)'; }, 200);
+                }
+            };
+            
+            // Auto trigger once on load for joyful experience
+            setTimeout(createConfetti, 1000);
+
+            // Handle Resize for Canvas
+            window.addEventListener('resize', () => {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            });
+        });
+    </script>
+</body>
+</html>
